@@ -82,5 +82,25 @@ describe GildedRose do
         expect(items[0].to_s).to eq "Backstage passes to a TAFKAL80ETC concert, 19, 50"
       end
     end
+
+     context "Conjured Mana Cake" do
+      it "quality decreases by 2" do
+        items = [Item.new("Conjured Mana Cake", 3, 6)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].to_s).to eq "Conjured Mana Cake, 2, 4"
+      end
+
+      it "quality decreases by twice when sell in value reaches 0" do
+        items = [Item.new("Conjured Mana Cake", 0, 6)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].to_s).to eq "Conjured Mana Cake, -1, 2"
+      end
+
+      it "quality to never be less than 0" do
+        items = [Item.new("Conjured Mana Cake", 10, 0)]
+        GildedRose.new(items).update_quality()
+        expect(items[0].to_s).to eq "Conjured Mana Cake, 9, 0"
+      end
+    end
   end
 end
